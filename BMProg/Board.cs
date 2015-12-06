@@ -7,7 +7,7 @@ namespace BMProg
 	{
 		public Instruction[,] Instructions;
 
-		public List<Agent> Agents;
+		public List<Signal> Signals;
 
 		public int Width;
 
@@ -16,7 +16,7 @@ namespace BMProg
 		public Board(int width, int height)
 		{
 			Instructions = new Instruction[width, height];
-			Agents = new List<Agent>();
+			Signals = new List<Signal>();
 			Width = width;
 			Height = height;
 		}
@@ -36,8 +36,8 @@ namespace BMProg
 				}
 			}
 
-			// Initialize an agent in the top left facing right
-			result.Agents.Add(new Agent() { Direction = Direction.Right, Position = new Point(0, 0) });
+			// Initialize a signal in the top left facing right
+			result.Signals.Add(new Signal() { Direction = Direction.Right, Position = new Point(0, 0) });
 
 			return result;
 		}

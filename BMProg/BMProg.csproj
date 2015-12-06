@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agent.cs" />
+    <Compile Include="Signal.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="ColorExtensions.cs" />
     <Compile Include="ConsoleRenderer.cs" />

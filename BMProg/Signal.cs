@@ -2,7 +2,7 @@
 
 namespace BMProg
 {
-	public class Agent
+	public class Signal
 	{
 		public Point Position;
 		public Direction Direction;

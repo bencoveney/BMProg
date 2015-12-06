@@ -18,43 +18,43 @@ namespace BMProg
 
 		public bool Tick()
 		{
-			List<Agent> newAgents = new List<Agent>();
+			List<Signal> newSignals = new List<Signal>();
 
-			foreach (Agent agent in board.Agents)
+			foreach (Signal signal in board.Signals)
 			{
-				if (agent.Position.X < 0 || agent.Position.X >= board.Width)
+				if (signal.Position.X < 0 || signal.Position.X >= board.Width)
 				{
 					return false;
 				}
-				if (agent.Position.Y < 0 || agent.Position.Y >= board.Height)
+				if (signal.Position.Y < 0 || signal.Position.Y >= board.Height)
 				{
 					return false;
 				}
 
-				Instruction instruction = board.Instructions[agent.Position.X, agent.Position.Y];
+				Instruction instruction = board.Instructions[signal.Position.X, signal.Position.Y];
 
 				switch (instruction)
 				{
 					case Instruction.Comment:
 					case Instruction.Unknown:
 						// Move forward
-						switch (agent.Direction)
+						switch (signal.Direction)
 						{
 							case Direction.Right:
-								agent.Position.X++;
-								newAgents.Add(agent);
+								signal.Position.X++;
+								newSignals.Add(signal);
 								break;
 							case Direction.Left:
-								agent.Position.X--;
-								newAgents.Add(agent);
+								signal.Position.X--;
+								newSignals.Add(signal);
 								break;
 							case Direction.Up:
-								agent.Position.Y--;
-								newAgents.Add(agent);
+								signal.Position.Y--;
+								newSignals.Add(signal);
 								break;
 							case Direction.Down:
-								agent.Position.Y++;
-								newAgents.Add(agent);
+								signal.Position.Y++;
+								newSignals.Add(signal);
 								break;
 							default:
 							case Direction.Unknown:
@@ -64,56 +64,56 @@ namespace BMProg
 
 					case Instruction.Right:
 						// Go right
-						agent.Direction = Direction.Right;
-						agent.Position.X++;
-						newAgents.Add(agent);
+						signal.Direction = Direction.Right;
+						signal.Position.X++;
+						newSignals.Add(signal);
 						break;
 
 					case Instruction.Left:
 						// Go left
-						agent.Direction = Direction.Left;
-						agent.Position.X--;
-						newAgents.Add(agent);
+						signal.Direction = Direction.Left;
+						signal.Position.X--;
+						newSignals.Add(signal);
 						break;
 
 					case Instruction.Up:
 						// Go up
-						agent.Direction = Direction.Up;
-						agent.Position.Y--;
-						newAgents.Add(agent);
+						signal.Direction = Direction.Up;
+						signal.Position.Y--;
+						newSignals.Add(signal);
 						break;
 
 					case Instruction.Down:
 						// Go down
-						agent.Direction = Direction.Down;
-						agent.Position.Y++;
-						newAgents.Add(agent);
+						signal.Direction = Direction.Down;
+						signal.Position.Y++;
+						newSignals.Add(signal);
 						break;
 
 					case Instruction.Split:
-						if (agent.Direction == Direction.Down || agent.Direction == Direction.Up)
+						if (signal.Direction == Direction.Down || signal.Direction == Direction.Up)
 						{
-							newAgents.Add(new Agent()
+							newSignals.Add(new Signal()
 							{
-								Position = new Point(agent.Position.X + 1, agent.Position.Y),
+								Position = new Point(signal.Position.X + 1, signal.Position.Y),
 								Direction = Direction.Right
 							});
-							newAgents.Add(new Agent()
+							newSignals.Add(new Signal()
 							{
-								Position = new Point(agent.Position.X - 1, agent.Position.Y),
+								Position = new Point(signal.Position.X - 1, signal.Position.Y),
 								Direction = Direction.Left
 							});
 						}
 						else
 						{
-							newAgents.Add(new Agent()
+							newSignals.Add(new Signal()
 							{
-								Position = new Point(agent.Position.X, agent.Position.Y + 1),
+								Position = new Point(signal.Position.X, signal.Position.Y + 1),
 								Direction = Direction.Down
 							});
-							newAgents.Add(new Agent()
+							newSignals.Add(new Signal()
 							{
-								Position = new Point(agent.Position.X, agent.Position.Y - 1),
+								Position = new Point(signal.Position.X, signal.Position.Y - 1),
 								Direction = Direction.Up
 							});
 						}
@@ -127,7 +127,7 @@ namespace BMProg
 				}
 			}
 
-			board.Agents = newAgents;
+			board.Signals = newSignals;
 
 			return true;
 		}
