@@ -1,6 +1,6 @@
 ﻿namespace BMProg
 {
-	public enum Direction
+	internal enum Direction
 	{
 		Unknown,
 		Right,

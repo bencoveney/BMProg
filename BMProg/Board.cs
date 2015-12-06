@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace BMProg
 {
-	public class Board
+	internal class Board
 	{
 		public Instruction[,] Instructions;
 

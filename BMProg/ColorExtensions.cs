@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BMProg
 {
-	public static class ColorExtensions
+	internal static class ColorExtensions
 	{
 		public static Instruction GetInstruction(this Color color)
 		{

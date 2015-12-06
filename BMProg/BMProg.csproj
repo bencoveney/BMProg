@@ -42,13 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BMProg.cs" />
+    <Compile Include="IInterpreter.cs" />
     <Compile Include="Signal.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="ColorExtensions.cs" />
     <Compile Include="ConsoleRenderer.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="Instruction.cs" />
-    <Compile Include="Interpreter.cs" />
+    <Compile Include="OldInterpreter.cs" />
     <Compile Include="IRenderer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

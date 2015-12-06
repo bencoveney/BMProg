@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace BMProg
 {
-	public class Interpreter
+	internal class OldInterpreter
+		:IInterpreter
 	{
 		private Board board;
 
-		public Interpreter(Board board)
+		public OldInterpreter(Board board)
 		{
 			this.board = board;
 		}

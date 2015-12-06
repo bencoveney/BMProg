@@ -1,6 +1,6 @@
 ﻿namespace BMProg
 {
-	public enum Instruction
+	internal enum Instruction
 	{
 		Unknown,
 		Right,

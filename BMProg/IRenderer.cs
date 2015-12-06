@@ -1,6 +1,6 @@
 ﻿namespace BMProg
 {
-	interface IRenderer
+	internal interface IRenderer
 	{
 		void DrawStart();
 		void DrawFrame();
