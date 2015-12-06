@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BMProg
 {
-	internal class IInterpreter
+	internal interface IInterpreter
 	{
 		/// <summary>
 		/// Performs a single tick.
