@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="BMProg.cs" />
     <Compile Include="IInterpreter.cs" />
+    <Compile Include="InterpreterSettings.cs" />
     <Compile Include="Signal.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="ColorExtensions.cs" />

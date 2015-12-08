@@ -7,51 +7,76 @@ using System.Timers;
 
 namespace BMProg
 {
-	public class BMProg
+	internal class BMProg
 	{
-		public static void RunFile(string fileName, bool renderToConsole = true)
+		public static void CreateAndRun(InterpreterSettings settings)
 		{
-			Board board = Board.FromFile(fileName);
+			Board board = Board.FromFile(settings.fileName);
+
 			IInterpreter interpreter = new OldInterpreter(board);
 
-			if(renderToConsole)
+			IRenderer renderer = null;
+			if(settings.renderToConsole)
 			{
-				RunInConsole(interpreter, board);
+				renderer = new ConsoleRenderer(board);
+			}
+
+			// Create and run
+			BMProg program = new BMProg(interpreter, renderer, settings.millisecondsPerTick);
+			program.Run();
+		}
+
+		private IInterpreter interpreter;
+		private IRenderer renderer;
+		private int millisecondsPerTick;
+
+		public BMProg(IInterpreter interpreter, IRenderer renderer, int millisecondsPerTick)
+		{
+			this.interpreter = interpreter;
+			this.renderer = renderer;
+			this.millisecondsPerTick = millisecondsPerTick;
+		}
+
+		public void Run()
+		{
+			if (renderer != null)
+			{
+				renderer.DrawStart();
+				renderer.DrawFrame();
+			}
+
+			// If a time was specified
+			if(this.millisecondsPerTick != 0)
+			{
+				// Use a timer to delay stepping
+				Timer timer = new Timer(millisecondsPerTick);
+				timer.Elapsed += new ElapsedEventHandler((sender, e) =>
+				{
+					if(!DoSingleStep())
+					{
+						timer.Stop();
+					}
+				});
+				timer.Start();
 			}
 			else
 			{
-				RunSilently(interpreter);
+				while (DoSingleStep())
+				{
+				}
 			}
 		}
 
-		private static void RunInConsole(IInterpreter interpreter, Board board)
+		private bool DoSingleStep()
 		{
-			IRenderer renderer = new ConsoleRenderer(board);
-			renderer.DrawStart();
+			bool isStepsRemaining = interpreter.Tick();
 
-			// Draw the pre-simulation state and wait for input
-			renderer.DrawFrame();
-			Console.ReadKey(true);
-
-			// Main loop
-			Timer timer = new Timer(100d);
-			timer.Elapsed += new ElapsedEventHandler((sender, e) =>
+			if (this.renderer != null)
 			{
-				if (!interpreter.Tick())
-					timer.Stop();
-
 				renderer.DrawFrame();
-			});
-			timer.Start();
-
-			Console.ReadLine();
-		}
-
-		private static void RunSilently(IInterpreter interpreter)
-		{
-			while(interpreter.Tick())
-			{
 			}
+
+			return isStepsRemaining;
 		}
 	}
 }
