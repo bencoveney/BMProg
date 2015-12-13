@@ -6,5 +6,6 @@ namespace BMProg
 	{
 		public Point Position;
 		public Direction Direction;
+		public bool IsWaiting = false;
 	}
 }

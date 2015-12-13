@@ -41,5 +41,16 @@ namespace BMProg
 
 			return result;
 		}
+
+		public IEnumerable<Signal> GetSignalsInCell(int x, int y)
+		{
+			foreach(Signal signal in this.Signals)
+			{
+				if(signal.Position.X == x && signal.Position.Y == y)
+				{
+					yield return signal;
+				}
+			}
+		}
 	}
 }
