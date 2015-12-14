@@ -13,5 +13,13 @@ namespace BMProg
 		/// </summary>
 		/// <returns>True if execution will continue. False if execution has ended.</returns>
 		bool Tick();
+
+		/// <summary>
+		/// Gets the current output value.
+		/// </summary>
+		/// <value>
+		/// The output.
+		/// </value>
+		int Output { get; }
 	}
 }

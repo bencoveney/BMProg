@@ -33,6 +33,24 @@ namespace BMProg
 			this.output = Enumerable.Repeat(false, this.board.Height).ToArray();
 		}
 
+		public int Output
+		{
+			get
+			{
+				int value = 0;
+
+				for (int i = 0; i < output.Count(); i++)
+				{
+					if (output[i])
+					{
+						value += Convert.ToInt16(Math.Pow(2, i));
+					}
+				}
+
+				return value;
+			}
+		}
+
 		public bool Tick()
 		{
 			if(isFirstTick)

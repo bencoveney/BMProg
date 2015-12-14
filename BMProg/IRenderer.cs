@@ -4,6 +4,6 @@
 	{
 		void DrawStart();
 		void DrawFrame();
-		void DrawEnd();
+		void DrawEnd(int output);
 	}
 }

@@ -17,6 +17,14 @@ namespace BMProg
 			this.board = board;
 		}
 
+		public int Output
+		{
+			get
+			{
+				return 0;
+			}
+		}
+
 		public bool Tick()
 		{
 			List<Signal> newSignals = new List<Signal>();

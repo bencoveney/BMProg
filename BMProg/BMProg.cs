@@ -55,6 +55,8 @@ namespace BMProg
 					if(!DoSingleStep())
 					{
 						timer.Stop();
+
+						Stop();
 					}
 				});
 				timer.Start();
@@ -64,6 +66,16 @@ namespace BMProg
 				while (DoSingleStep())
 				{
 				}
+
+				Stop();
+			}
+		}
+
+		private void Stop()
+		{
+			if(renderer != null)
+			{
+				renderer.DrawEnd(interpreter.Output);
 			}
 		}
 

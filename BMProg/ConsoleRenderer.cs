@@ -60,9 +60,12 @@ namespace BMProg
 			frameCount++;
 		}
 
-		public void DrawEnd()
+		public void DrawEnd(int output)
 		{
-			// No specific ending logic
+			Console.BackgroundColor = ConsoleColor.Black;
+			Console.ForegroundColor = ConsoleColor.White;
+			Console.Clear();
+			Console.WriteLine("Output: {0}", output);
 
 			return;
 		}
