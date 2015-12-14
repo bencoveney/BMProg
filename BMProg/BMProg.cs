@@ -13,7 +13,7 @@ namespace BMProg
 		{
 			Board board = Board.FromFile(settings.fileName);
 
-			IInterpreter interpreter = new OldInterpreter(board);
+			IInterpreter interpreter = new NewInterpreter(board, settings.input);
 
 			IRenderer renderer = null;
 			if(settings.renderToConsole)

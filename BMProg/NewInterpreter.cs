@@ -46,20 +46,56 @@ namespace BMProg
 
 			// Process the signals in each cell depending on their instructions.
 			List<Signal> newSignals = new List<Signal>();
-			for (int x = -1; x < board.Width + 1; x++)
+			for (int x = 0; x < board.Width; x++)
 			{
-				for (int y = 0; y < board.Height + 1; y++)
+				for (int y = 0; y < board.Height; y++)
 				{
-					newSignals.Concat(GetNewSignalsForCell(x, y));
+					// TODO can't use concat?
+					foreach(Signal signal in GetNewSignalsForCell(x, y))
+					{
+						newSignals.Add(signal);
+					}
 				}
 			}
 
-			// Move each signal in the correct direction
-			
-			// Handle termination
+			// Move each signal in the correct direction.
+			newSignals.ForEach(MoveSignal);
 
+			// Signals off of the left hand side of the screen should be removed.
+			newSignals.RemoveAll(signal => signal.Position.X < 0);
+			
+			bool continueInterpreting = true;
+
+			// Signals off of the right hand side of the screen should be converted to output.
+			IEnumerable<Signal> offRightSignals = newSignals.Where(signal => signal.Position.X >= board.Width);
+			foreach(Signal offRightSignal in offRightSignals)
+			{
+				// Check for a signal in the termination position.
+				if(offRightSignal.Position.Y == 0)
+				{
+					continueInterpreting = false;
+				}
+
+				// Shift the position by 1 as the top spot is the termination signal.
+				int position = offRightSignal.Position.Y - 1;
+
+				// Toggle the bit.
+				output[position] = !output[position];
+			}
+
+			// The off right signals are out of the simulation.
+			newSignals.RemoveAll(signal => offRightSignals.Contains(signal));
+
+			// If there are no signals left don't bother continuing.
+			if (newSignals.Count <= 0)
+			{
+				continueInterpreting = false;
+			}
+			
+			// Now that all processing has been done, update the board state with the new signals;
 			board.Signals = newSignals;
-			return true;
+
+			return continueInterpreting;
 		}
 
 		private IEnumerable<Signal> GetNewSignalsForCell(int x, int y)
@@ -98,7 +134,6 @@ namespace BMProg
 				default:
 					// No manipulation.
 					return currentSignals;
-					break;
 			}
 		}
 
@@ -203,6 +238,32 @@ namespace BMProg
 			}
 
 			return result;
+		}
+
+		private void MoveSignal(Signal signal)
+		{
+			switch (signal.Direction)
+			{
+				case Direction.Right:
+					signal.Position.X = signal.Position.X + 1;
+					break;
+
+				case Direction.Left:
+					signal.Position.X = signal.Position.X - 1;
+					break;
+
+				case Direction.Up:
+					signal.Position.Y = signal.Position.Y - 1;
+					break;
+
+				case Direction.Down:
+					signal.Position.Y = signal.Position.Y + 1;
+					break;
+
+				case Direction.Unknown:
+				default:
+					break;
+			}
 		}
 
 		private bool IsTerminating(Signal signal)
