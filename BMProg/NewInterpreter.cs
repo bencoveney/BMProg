@@ -26,7 +26,7 @@ namespace BMProg
 			IEnumerable<bool> starterSignal = new bool[] { true };
 
 			// There could be other starter signals if there is an input to the interpreter.
-			IEnumerable<bool> inputSignals = Convert.ToString(input, 2).Select(s => s.Equals('1'));
+			IEnumerable<bool> inputSignals = Convert.ToString(input, 2).Select(s => s.Equals('1')).Reverse();
 			this.input = starterSignal.Concat(inputSignals);
 
 			// Prep the output area. This can only be as tall as the board.
@@ -56,7 +56,7 @@ namespace BMProg
 			if(isFirstTick)
 			{
 				// For the first tick all we will ever need to do is move the starter signals onto the board.
-				AddStarterInput();
+				this.board.Signals = AddStarterInput();
 
 				isFirstTick = false;
 				return true;
@@ -186,26 +186,23 @@ namespace BMProg
 		private IEnumerable<Signal> ProcessSplitCell(IEnumerable<Signal> signals)
 		{
 			// Seperate the signals out into waiting and non-waiting signals.
-			IEnumerable<Signal> waitingSignals = signals.Where(signal => signal.IsWaiting);
-			IEnumerable<Signal> nonWaitingSignals = signals.Where(signal => !signal.IsWaiting);
-
-			// The waiting cells are ready to move off.
-			waitingSignals.ToList().ForEach(signal => signal.IsWaiting = false);
+			IEnumerable<Signal> waitingSignals = signals.Where(signal => signal.WaitState != WaitState.None);
+			IEnumerable<Signal> freshSignals = signals.Where(signal => signal.WaitState == WaitState.None);
 
 			// Start collecting confirmed resultant signals.
 			List<Signal> result = new List<Signal>(waitingSignals);
 
 			// Process hoizontally moving signals.
 			// These are replaced by a 2 waiting signals, one moving up and one moving down.
-			if (nonWaitingSignals.Any(signal => signal.Direction == Direction.Left || signal.Direction == Direction.Right))
+			if (freshSignals.Any(signal => signal.Direction == Direction.Left || signal.Direction == Direction.Right))
 			{
 				// Select a sample to know which position to place the new signals in
-				Signal sample = nonWaitingSignals.First();
+				Signal sample = freshSignals.First();
 
 				result.Add(new Signal
 				{
 					Direction = Direction.Up,
-					IsWaiting = true,
+					WaitState = WaitState.StartingWaiting,
 					Position = new Point
 					{
 						X = sample.Position.X,
@@ -216,7 +213,7 @@ namespace BMProg
 				result.Add(new Signal
 				{
 					Direction = Direction.Down,
-					IsWaiting = true,
+					WaitState = WaitState.StartingWaiting,
 					Position = new Point
 					{
 						X = sample.Position.X,
@@ -227,15 +224,15 @@ namespace BMProg
 
 			// Process vertically moving signals.
 			// These are replaced by a 2 waiting signals, one moving left and one moving right.
-			if (nonWaitingSignals.Any(signal => signal.Direction == Direction.Up || signal.Direction == Direction.Down))
+			if (freshSignals.Any(signal => signal.Direction == Direction.Up || signal.Direction == Direction.Down))
 			{
 				// Select a sample to know which position to place the new signals in
-				Signal sample = nonWaitingSignals.First();
+				Signal sample = freshSignals.First();
 
 				result.Add(new Signal
 				{
 					Direction = Direction.Left,
-					IsWaiting = true,
+					WaitState = WaitState.StartingWaiting,
 					Position = new Point
 					{
 						X = sample.Position.X,
@@ -246,7 +243,7 @@ namespace BMProg
 				result.Add(new Signal
 				{
 					Direction = Direction.Right,
-					IsWaiting = true,
+					WaitState = WaitState.StartingWaiting,
 					Position = new Point
 					{
 						X = sample.Position.X,
@@ -260,6 +257,29 @@ namespace BMProg
 
 		private void MoveSignal(Signal signal)
 		{
+			switch(signal.WaitState)
+			{
+				case WaitState.StartingWaiting:
+					// Cannot move this tick.
+					signal.WaitState = WaitState.FinishingWaiting;
+					return;
+
+				case WaitState.FinishingWaiting:
+					// We can revert to the ordinary wait state, but should perform movement.
+					signal.WaitState = WaitState.None;
+					break;
+
+				case WaitState.None:
+				default:
+					// No specific action to take
+					break;
+			}
+
+			if (signal.WaitState == WaitState.StartingWaiting)
+			{
+				return;
+			}
+
 			switch (signal.Direction)
 			{
 				case Direction.Right:

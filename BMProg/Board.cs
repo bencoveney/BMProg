@@ -7,7 +7,7 @@ namespace BMProg
 	{
 		public Instruction[,] Instructions;
 
-		public List<Signal> Signals;
+		public IEnumerable<Signal> Signals;
 
 		public int Width;
 
@@ -35,9 +35,6 @@ namespace BMProg
 					result.Instructions[x, y] = bitmap.GetPixel(x, y).GetInstruction();
 				}
 			}
-
-			// Initialize a signal in the top left facing right
-			result.Signals.Add(new Signal() { Direction = Direction.Right, Position = new Point(0, 0) });
 
 			return result;
 		}

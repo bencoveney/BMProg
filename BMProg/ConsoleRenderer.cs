@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace BMProg
 {
@@ -50,7 +51,7 @@ namespace BMProg
 			{
 				for (int y = 0; y < board.Height; y++)
 				{
-					Signal signalInPosition = board.Signals.Find(signal => signal.Position.X == x && signal.Position.Y == y);
+					Signal signalInPosition = board.Signals.FirstOrDefault(signal => signal.Position.X == x && signal.Position.Y == y);
 
 					Console.SetCursorPosition(x, y);
 					WriteCellContent(board.Instructions[x, y], signalInPosition);
