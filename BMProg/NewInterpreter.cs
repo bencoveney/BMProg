@@ -93,12 +93,14 @@ namespace BMProg
 				{
 					continueInterpreting = false;
 				}
+				else
+				{
+					// Shift the position by 1 as the top spot is the termination signal.
+					int position = offRightSignal.Position.Y - 1;
 
-				// Shift the position by 1 as the top spot is the termination signal.
-				int position = offRightSignal.Position.Y - 1;
-
-				// Toggle the bit.
-				output[position] = !output[position];
+					// Toggle the bit.
+					output[position] = !output[position];
+				}
 			}
 
 			// The off right signals are out of the simulation.
