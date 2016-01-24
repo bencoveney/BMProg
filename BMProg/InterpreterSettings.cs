@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BMProg
 {
-	internal struct InterpreterSettings
+	public struct InterpreterSettings
 	{
 		public string fileName;
 		public int input;
-		public bool renderToConsole;
+		public RenderMode renderMode;
 		public int millisecondsPerTick;
 	}
 }

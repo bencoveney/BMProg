@@ -8,8 +8,6 @@ namespace BMProg
 			InterpreterSettings settings = processCliArguments(arguments);
 
 			BMProg.CreateAndRun(settings);
-
-			Console.ReadKey(true);
 		}
 
 		/// <summary>
@@ -24,7 +22,7 @@ namespace BMProg
 			{
 				fileName = "sample.bmp",
 				input = 0,
-				renderToConsole = false,
+				renderMode = RenderMode.Console,
 				millisecondsPerTick = 100,
 			};
 
@@ -62,16 +60,21 @@ namespace BMProg
 						case "r":
 							switch(value)
 							{
-								case "1":
-								case "true":
-									settings.renderToConsole = true;
-									break;
-
 								case "0":
-								case "false":
-									settings.renderToConsole = false;
+								case "none":
+									settings.renderMode = RenderMode.None;
 									break;
 								
+								case "1":
+								case "console":
+									settings.renderMode = RenderMode.Console;
+									break;
+
+								case "2":
+								case "gif":
+									settings.renderMode = RenderMode.Gif;
+									break;
+
 								default:
 									Console.WriteLine("Unknown console render value: {0}", value);
 									break;

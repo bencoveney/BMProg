@@ -1,5 +1,7 @@
-﻿using System;
+﻿using BumpKit;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,38 +9,61 @@ using System.Timers;
 
 namespace BMProg
 {
-	internal class BMProg
+	public class BMProg
 	{
-		public static void CreateAndRun(InterpreterSettings settings)
+		public static int CreateAndRun(InterpreterSettings settings)
+		{
+			return CreateAndRunAsync(settings).Result;
+		}
+
+		public static async Task<int> CreateAndRunAsync(InterpreterSettings settings)
 		{
 			Board board = Board.FromFile(settings.fileName);
 
 			IInterpreter interpreter = new NewInterpreter(board, settings.input);
 
-			IRenderer renderer = null;
-			if(settings.renderToConsole)
+			switch(settings.renderMode)
 			{
-				renderer = new ConsoleRenderer(board);
-			}
+				case RenderMode.Console:
+					return await CreateAndRunAsync(interpreter, new ConsoleRenderer(board), settings.millisecondsPerTick);
 
-			// Create and run
-			BMProg program = new BMProg(interpreter, renderer, settings.millisecondsPerTick);
-			program.Run();
+				case RenderMode.Gif:
+					using (FileStream gifFile = File.OpenWrite("output.gif"))
+					{
+						using (GifEncoder gifEncoder = new GifEncoder(gifFile))
+						{
+							return await CreateAndRunAsync(interpreter, new GifRenderer(board, gifEncoder, settings.millisecondsPerTick), settings.millisecondsPerTick);
+						}
+					}
+
+				case RenderMode.None:
+				default:
+					return await CreateAndRunAsync(interpreter, null, settings.millisecondsPerTick);
+			}
+		}
+
+		private static async Task<int> CreateAndRunAsync(IInterpreter interpreter, IRenderer renderer, int millisecondsPerTick)
+		{
+			BMProg program = new BMProg(interpreter, renderer, millisecondsPerTick);
+
+			return await program.Run();
 		}
 
 		private IInterpreter interpreter;
 		private IRenderer renderer;
 		private int millisecondsPerTick;
 
-		public BMProg(IInterpreter interpreter, IRenderer renderer, int millisecondsPerTick)
+		internal BMProg(IInterpreter interpreter, IRenderer renderer, int millisecondsPerTick)
 		{
 			this.interpreter = interpreter;
 			this.renderer = renderer;
 			this.millisecondsPerTick = millisecondsPerTick;
 		}
 
-		public void Run()
+		internal async Task<int> Run()
 		{
+			TaskCompletionSource<int> interpreterResultSource = new TaskCompletionSource<int>();
+
 			if (renderer != null)
 			{
 				renderer.DrawStart();
@@ -57,6 +82,8 @@ namespace BMProg
 						timer.Stop();
 
 						Stop();
+
+						interpreterResultSource.SetResult(interpreter.Output);
 					}
 				});
 				timer.Start();
@@ -68,7 +95,11 @@ namespace BMProg
 				}
 
 				Stop();
+
+				interpreterResultSource.SetResult(interpreter.Output);
 			}
+
+			return await interpreterResultSource.Task;
 		}
 
 		private void Stop()

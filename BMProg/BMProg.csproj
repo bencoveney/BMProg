@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BumpKit">
+      <HintPath>..\packages\Bumpkit.1.0.2\lib\BumpKit.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -43,9 +46,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BMProg.cs" />
+    <Compile Include="GifRenderer.cs">
+      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="IInterpreter.cs" />
     <Compile Include="InterpreterSettings.cs" />
     <Compile Include="NewInterpreter.cs" />
+    <Compile Include="RenderMode.cs" />
     <Compile Include="Signal.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="ColorExtensions.cs" />
@@ -60,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="prog\and_gate.bmp">
