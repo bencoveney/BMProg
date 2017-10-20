@@ -1,0 +1,19 @@
+{
+  "name": "bmprog",
+  "version": "1.0.0",
+  "description": "Bitmap Programming",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bencoveney/BMProg.git"
+  },
+  "author": "Ben Coveney",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bencoveney/BMProg/issues"
+  },
+  "homepage": "https://github.com/bencoveney/BMProg#readme"
+}
