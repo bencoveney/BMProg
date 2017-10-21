@@ -1,20 +1,18 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import { Instruction } from "./bmprog/instruction";
-import { Program } from "./components/display/program";
-
-const getPen = () => Instruction.Comment;
+import { Comment, Instruction } from "./bmprog/instruction";
+import { Playground } from "./components/playground/playground";
 
 const rootEl = document.getElementById("root");
 ReactDOM.render(
   (
-    <Program
+    <Playground
       rows={10}
       columns={15}
       width={300}
       height={200}
-      getPen={getPen}
+      initialPen={Comment}
     />
   ),
   rootEl,

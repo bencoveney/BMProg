@@ -1,10 +1,10 @@
 import * as React from "react";
 import * as ArrayUtility from "../../utility/array";
 
-import { Instruction } from "../../bmprog/instruction";
+import { Empty, Instruction } from "../../bmprog/instruction";
 import { Row } from "./row";
 
-interface ProgramProps {
+interface DisplayProps {
   rows: number;
   columns: number;
   width: number;
@@ -12,19 +12,19 @@ interface ProgramProps {
   getPen: () =>  Instruction;
 }
 
-interface ProgramState {
+interface DisplayState {
   instructions: Instruction[][];
 }
 
-export class Program extends React.Component<ProgramProps, ProgramState> {
-  constructor(props: ProgramProps) {
+export class Display extends React.Component<DisplayProps, DisplayState> {
+  constructor(props: DisplayProps) {
     super(props);
 
     this.state = {
       instructions: ArrayUtility.initialize2d(
         props.rows,
         props.columns,
-        () => Instruction.Empty,
+        () => Empty,
       ),
     };
   }
@@ -73,7 +73,7 @@ export class Program extends React.Component<ProgramProps, ProgramState> {
         this.state.instructions,
         rowIndex,
         columnIndex,
-        clear ? Instruction.Empty : this.props.getPen(),
+        clear ? Empty : this.props.getPen(),
       ),
     });
   }

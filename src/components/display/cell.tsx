@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as StyleUtility from "../../utility/style";
 
-import { getColor, Instruction } from "../../bmprog/instruction";
+import { Instruction } from "../../bmprog/instruction";
 
 export interface CellProps {
   instruction: Instruction;
@@ -19,7 +19,7 @@ const Cell: React.StatelessComponent<CellProps> = (
   const style: React.CSSProperties = StyleUtility.merge(
     staticStyle,
     {
-      backgroundColor: getColor(props.instruction),
+      backgroundColor: props.instruction.color,
     },
   );
 
