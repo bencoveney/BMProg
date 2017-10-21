@@ -1,4 +1,4 @@
-﻿BMProg
+BMProg
 ==============================
 This project is a simple "programming language" comprising of coloured pixels in a bitmap image which is traversed by signals.
 
