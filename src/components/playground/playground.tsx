@@ -4,6 +4,7 @@ import * as ArrayUtility from "../../utility/array";
 import { Instruction } from "../../bmprog/instruction";
 import { Display } from "../display/display";
 import { Palette } from "../palette/palette";
+import { SplitLayout } from "../splitLayout/splitLayout";
 
 interface PlaygroundProps {
   initialPen: Instruction;
@@ -31,17 +32,19 @@ export class Playground extends React.Component<
     const setPen = (instruction: Instruction) => this.setPen(instruction);
     return (
       <div>
-        <Display
-          rows={this.props.rows}
-          columns={this.props.columns}
-          width={this.props.width}
-          height={this.props.height}
-          getPen={getPen}
-        />
-        <Palette
-          currentPen={this.state.pen}
-          setPen={setPen}
-        />
+        <SplitLayout>
+          <Display
+            rows={this.props.rows}
+            columns={this.props.columns}
+            width={this.props.width}
+            height={this.props.height}
+            getPen={getPen}
+          />
+          <Palette
+            currentPen={this.state.pen}
+            setPen={setPen}
+          />
+        </SplitLayout>
       </div>
     );
   }
