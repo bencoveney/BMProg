@@ -1,7 +1,9 @@
 import * as React from "react";
+import * as Interpreter from "../../bmprog/interpreter";
 import * as ArrayUtility from "../../utility/array";
 
 import { Empty, Instruction } from "../../bmprog/instruction";
+import { Program } from "../../bmprog/program";
 import { Row } from "./row";
 
 interface DisplayProps {
@@ -12,21 +14,19 @@ interface DisplayProps {
   getPen: () =>  Instruction;
 }
 
-interface DisplayState {
-  instructions: Instruction[][];
-}
-
-export class Display extends React.Component<DisplayProps, DisplayState> {
+export class Display extends React.Component<DisplayProps, Program> {
+  private interval: number | undefined;
   constructor(props: DisplayProps) {
     super(props);
+    this.state = Interpreter.createProgram(props.rows, props.columns);
+  }
 
-    this.state = {
-      instructions: ArrayUtility.initialize2d(
-        props.rows,
-        props.columns,
-        () => Empty,
-      ),
-    };
+  public componentWillMount() {
+    this.startProgram(0);
+  }
+
+  public componentWillUnmount() {
+    this.stopProgram();
   }
 
   public render() {
@@ -45,6 +45,9 @@ export class Display extends React.Component<DisplayProps, DisplayState> {
             set: (clear: boolean) => {
               this.setInstruction(rowIndex, cellIndex, clear);
             },
+            signals: this.state.signals.filter(
+              ({ row, column }) => row === rowIndex && column === cellIndex,
+            ),
           }),
         );
         return (
@@ -76,5 +79,34 @@ export class Display extends React.Component<DisplayProps, DisplayState> {
         clear ? Empty : this.props.getPen(),
       ),
     });
+  }
+
+  private startProgram(input: number): void {
+    this.setState(Interpreter.initialize(this.state, input));
+    this.interval = window.setInterval(() => this.updateProgram(), 1000);
+  }
+
+  private stopProgram(): void {
+    if (typeof this.interval === "number") {
+      clearInterval(this.interval);
+      this.interval = undefined;
+    }
+  }
+
+  private updateProgram(): void {
+    this.setState(
+      Interpreter.getNextStep(
+        this.state,
+        (output) => {
+          // tslint:disable-next-line:no-console
+          console.log(output);
+        },
+        () => {
+          // tslint:disable-next-line:no-console
+          console.log("terminated");
+          this.stopProgram();
+        },
+      ),
+    );
   }
 }

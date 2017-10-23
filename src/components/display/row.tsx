@@ -23,6 +23,7 @@ const Row: React.StatelessComponent<RowProps> = (
         instruction={cell.instruction}
         set={cell.set}
         key={index}
+        signals={cell.signals}
       />
     ),
   );

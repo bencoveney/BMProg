@@ -9,6 +9,10 @@ interface PaletteProps {
   setPen: (instruction: Instruction) => void;
 }
 
+const style: React.CSSProperties = {
+  minWidth: "250px",
+};
+
 export const Palette: React.StatelessComponent<PaletteProps> = (
   props: PaletteProps,
 ) => {
@@ -24,5 +28,10 @@ export const Palette: React.StatelessComponent<PaletteProps> = (
       />
     );
   });
-  return <div>{buttons}</div>;
+  return (
+    <div style={style}>
+      <h2>Palette</h2>
+      {buttons}
+    </div>
+  );
 };
