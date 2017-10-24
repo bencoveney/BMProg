@@ -26,7 +26,7 @@ export const SplitLayout: React.StatelessComponent<SplitLayoutProps> = (
   props: SplitLayoutProps,
 ) => {
   const left = props.children[0];
-  const right = props.children[1];
+  const right = props.children.slice(1);
   return (
     <div style={wrapperStyle}>
       <div style={leftStyle}>

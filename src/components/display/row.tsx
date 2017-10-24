@@ -14,7 +14,7 @@ const style: React.CSSProperties = {
   flexGrow: 1,
 };
 
-const Row: React.StatelessComponent<RowProps> = (
+export const Row: React.StatelessComponent<RowProps> = (
   props: RowProps,
 ) => {
   const cells = props.cells.map(
@@ -30,5 +30,3 @@ const Row: React.StatelessComponent<RowProps> = (
 
   return <div style={style}>{cells}</div>;
 };
-
-export { Row };

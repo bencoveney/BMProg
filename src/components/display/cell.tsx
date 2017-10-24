@@ -17,7 +17,7 @@ const staticStyle: React.CSSProperties = {
   flexGrow: 1,
 };
 
-const Cell: React.StatelessComponent<CellProps> = (
+export const Cell: React.StatelessComponent<CellProps> = (
   props: CellProps,
 ) => {
   const hasSignals = props.signals.length > 0;
@@ -51,5 +51,3 @@ const Cell: React.StatelessComponent<CellProps> = (
     />
   );
 };
-
-export { Cell };
