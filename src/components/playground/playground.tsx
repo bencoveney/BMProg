@@ -6,6 +6,7 @@ import { Empty, Instruction } from "../../bmprog/instruction";
 import { Program } from "../../bmprog/program";
 import { Controls } from "../controls/controls";
 import { Display } from "../display/display";
+import { Io, IoProps } from "../io/io";
 import { Palette } from "../palette/palette";
 import { SplitLayout } from "../splitLayout/splitLayout";
 
@@ -21,6 +22,7 @@ interface PlaygroundState extends Program {
   input: number;
   interval: number;
   pen: Instruction;
+  output: string[];
 }
 
 export class Playground extends React.Component<
@@ -34,6 +36,7 @@ export class Playground extends React.Component<
     this.state = {
       input: 0,
       interval: 1000,
+      output: [],
       pen: props.initialPen,
       ...Interpreter.createProgram(props.rows, props.columns),
     };
@@ -66,6 +69,11 @@ export class Playground extends React.Component<
             setSpeed={bind(this.setSpeed)}
             current={this.state.interval}
           />
+          <Io
+            input={this.state.input}
+            setInput={bind(this.setInput)}
+            output={this.state.output}
+          />
         </SplitLayout>
       </div>
     );
@@ -82,6 +90,14 @@ export class Playground extends React.Component<
 
   private setPen(instruction: Instruction): void {
     this.setState({ pen: instruction });
+  }
+
+  private setInput(input: number): void {
+    this.setState({ input });
+  }
+
+  private addOutput(message: string): void {
+    this.setState({ output: this.state.output.concat(message) });
   }
 
   private setSpeed(milliseconds: number) {
@@ -116,7 +132,10 @@ export class Playground extends React.Component<
 
   private start(): void {
     this.setState(
-      Interpreter.initialize(this.state, 0),
+      {
+        output: [],
+        ...Interpreter.initialize(this.state, this.state.input),
+      },
       () => this.resume(),
     );
   }
@@ -145,13 +164,9 @@ export class Playground extends React.Component<
     this.setState(
       Interpreter.getNextStep(
         this.state,
-        (output) => {
-          // tslint:disable-next-line:no-console
-          console.log(output);
-        },
+        (output) => this.addOutput(`Output: ${output}`),
         () => {
-          // tslint:disable-next-line:no-console
-          console.log("terminated");
+          this.addOutput("Terminated");
           this.stop();
         },
       ),

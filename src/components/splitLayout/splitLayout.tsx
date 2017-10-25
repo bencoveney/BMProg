@@ -12,28 +12,28 @@ const wrapperStyle: React.CSSProperties = {
 
 const leftStyle: React.CSSProperties = {
   flexBasis: "auto",
-  flexGrow: 1,
-  flexShrink: 1,
+  flexGrow: 0,
+  flexShrink: 0,
 };
 
 const rightStyle: React.CSSProperties = {
   flexBasis: "auto",
-  flexGrow: 0,
-  flexShrink: 0,
+  flexGrow: 1,
+  flexShrink: 1,
 };
 
 export const SplitLayout: React.StatelessComponent<SplitLayoutProps> = (
   props: SplitLayoutProps,
 ) => {
-  const left = props.children[0];
-  const right = props.children.slice(1);
+  const single = props.children[0];
+  const rest = props.children.slice(1);
   return (
     <div style={wrapperStyle}>
       <div style={leftStyle}>
-        {left}
+        {rest}
       </div>
       <div style={rightStyle}>
-        {right}
+        {single}
       </div>
     </div>
   );
