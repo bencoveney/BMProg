@@ -23,7 +23,13 @@ export const initialize = (
   program: Program,
   input: number,
 ): Program => {
-  const signals = ["1"].concat(Math.round(input).toString(2).split(""))
+  const signals = ["1"]
+    .concat(
+      Math.round(input)
+        .toString(2)
+        .split("")
+        .reverse(),
+    )
     .map((bit, index) => {
       return {
         isInputSignal: bit === "1",
@@ -153,10 +159,27 @@ export const getNextStep = (
   const otherSignals = outputSignals.filter((signal) => signal.row > 0);
   if (otherSignals.length > 0) {
     onOutput(
-      otherSignals.reduce(
-        (outputSum, signal) => outputSum + Math.pow(2, signal.row - 1),
-        0,
-      ),
+      otherSignals
+        .reduce(
+          (previous, next, index, all) => {
+            const rest = all.slice(index + 1);
+            if (rest.some((signal) => signal.row === next.row)) {
+              return previous;
+            } else {
+              return previous.concat(next);
+            }
+          },
+          new Array<Signal>(),
+        )
+        .reduce(
+          (outputSum, signal) => {
+            if (signal.row === 1) {
+              return outputSum;
+            }
+            return outputSum + Math.pow(2, signal.row - 2);
+          },
+          0,
+        ),
     );
   }
 

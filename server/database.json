@@ -1,205 +1,175 @@
 {
   "programs": [
     {
-      "name": "MyProgram",
+      "name": "XOR",
       "columns": 15,
       "instructions": [
         {
-          "column": 0,
-          "instruction": "Comment",
+          "column": 10,
+          "instruction": "Down",
+          "row": 0
+        },
+        {
+          "column": 11,
+          "instruction": "Right",
           "row": 0
         },
         {
           "column": 1,
-          "instruction": "Comment",
-          "row": 0
-        },
-        {
-          "column": 2,
-          "instruction": "Comment",
-          "row": 0
-        },
-        {
-          "column": 3,
-          "instruction": "Comment",
-          "row": 0
-        },
-        {
-          "column": 5,
-          "instruction": "Comment",
-          "row": 0
-        },
-        {
-          "column": 6,
-          "instruction": "Comment",
-          "row": 0
-        },
-        {
-          "column": 4,
-          "instruction": "Comment",
+          "instruction": "Split",
           "row": 1
         },
         {
           "column": 5,
-          "instruction": "Comment",
+          "instruction": "Right",
           "row": 1
         },
         {
-          "column": 4,
-          "instruction": "Comment",
+          "column": 0,
+          "instruction": "Down",
           "row": 2
         },
         {
-          "column": 7,
-          "instruction": "Comment",
+          "column": 1,
+          "instruction": "Right",
           "row": 2
-        },
-        {
-          "column": 8,
-          "instruction": "Comment",
-          "row": 2
-        },
-        {
-          "column": 4,
-          "instruction": "Comment",
-          "row": 3
         },
         {
           "column": 5,
-          "instruction": "Comment",
+          "instruction": "Up",
+          "row": 2
+        },
+        {
+          "column": 10,
+          "instruction": "Right",
+          "row": 2
+        },
+        {
+          "column": 11,
+          "instruction": "Up",
+          "row": 2
+        },
+        {
+          "column": 0,
+          "instruction": "Right",
           "row": 3
         },
         {
-          "column": 6,
-          "instruction": "Comment",
+          "column": 1,
+          "instruction": "Up",
           "row": 3
-        },
-        {
-          "column": 7,
-          "instruction": "Comment",
-          "row": 3
-        },
-        {
-          "column": 8,
-          "instruction": "Comment",
-          "row": 3
-        },
-        {
-          "column": 3,
-          "instruction": "Comment",
-          "row": 4
-        },
-        {
-          "column": 4,
-          "instruction": "Comment",
-          "row": 4
-        },
-        {
-          "column": 5,
-          "instruction": "Comment",
-          "row": 4
-        },
-        {
-          "column": 6,
-          "instruction": "Comment",
-          "row": 4
-        },
-        {
-          "column": 7,
-          "instruction": "Comment",
-          "row": 4
-        },
-        {
-          "column": 8,
-          "instruction": "Comment",
-          "row": 4
         }
       ],
       "rows": 10,
-      "id": 1
+      "id": 3
     },
     {
-      "name": "MyProgram",
+      "name": "Output",
       "columns": 15,
       "instructions": [
         {
-          "column": 0,
-          "instruction": "Up",
+          "column": 8,
+          "instruction": "Down",
           "row": 0
         },
         {
-          "column": 1,
-          "instruction": "Up",
+          "column": 9,
+          "instruction": "Right",
           "row": 0
-        },
-        {
-          "column": 2,
-          "instruction": "Up",
-          "row": 0
-        },
-        {
-          "column": 3,
-          "instruction": "Up",
-          "row": 0
-        },
-        {
-          "column": 5,
-          "instruction": "Up",
-          "row": 0
-        },
-        {
-          "column": 6,
-          "instruction": "Up",
-          "row": 0
-        },
-        {
-          "column": 1,
-          "instruction": "Up",
-          "row": 1
-        },
-        {
-          "column": 2,
-          "instruction": "Up",
-          "row": 1
-        },
-        {
-          "column": 3,
-          "instruction": "Up",
-          "row": 1
-        },
-        {
-          "column": 4,
-          "instruction": "Up",
-          "row": 1
-        },
-        {
-          "column": 5,
-          "instruction": "Up",
-          "row": 1
-        },
-        {
-          "column": 6,
-          "instruction": "Up",
-          "row": 1
         },
         {
           "column": 7,
-          "instruction": "Up",
+          "instruction": "Down",
           "row": 1
         },
         {
-          "column": 2,
-          "instruction": "Up",
+          "column": 8,
+          "instruction": "Split",
+          "row": 1
+        },
+        {
+          "column": 6,
+          "instruction": "Down",
           "row": 2
         },
         {
-          "column": 3,
-          "instruction": "Up",
+          "column": 7,
+          "instruction": "Split",
           "row": 2
+        },
+        {
+          "column": 5,
+          "instruction": "Down",
+          "row": 3
+        },
+        {
+          "column": 6,
+          "instruction": "Split",
+          "row": 3
+        },
+        {
+          "column": 4,
+          "instruction": "Down",
+          "row": 4
+        },
+        {
+          "column": 5,
+          "instruction": "Split",
+          "row": 4
+        },
+        {
+          "column": 3,
+          "instruction": "Down",
+          "row": 5
+        },
+        {
+          "column": 4,
+          "instruction": "Split",
+          "row": 5
+        },
+        {
+          "column": 2,
+          "instruction": "Down",
+          "row": 6
+        },
+        {
+          "column": 3,
+          "instruction": "Split",
+          "row": 6
+        },
+        {
+          "column": 1,
+          "instruction": "Down",
+          "row": 7
+        },
+        {
+          "column": 2,
+          "instruction": "Split",
+          "row": 7
+        },
+        {
+          "column": 0,
+          "instruction": "Down",
+          "row": 8
+        },
+        {
+          "column": 1,
+          "instruction": "Split",
+          "row": 8
+        },
+        {
+          "column": 0,
+          "instruction": "Right",
+          "row": 9
+        },
+        {
+          "column": 9,
+          "instruction": "Up",
+          "row": 9
         }
       ],
       "rows": 10,
-      "id": 2
+      "id": 4
     }
   ]
 }
