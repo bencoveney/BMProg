@@ -4,6 +4,7 @@ import * as ArrayUtility from "../../utility/array";
 
 import { Empty, Instruction } from "../../bmprog/instruction";
 import { Program } from "../../bmprog/program";
+import { Api } from "../api/api";
 import { Controls } from "../controls/controls";
 import { Display } from "../display/display";
 import { Io, IoProps } from "../io/io";
@@ -23,6 +24,8 @@ interface PlaygroundState extends Program {
   interval: number;
   pen: Instruction;
   output: string[];
+  name: string;
+  id?: number;
 }
 
 export class Playground extends React.Component<
@@ -36,6 +39,7 @@ export class Playground extends React.Component<
     this.state = {
       input: 0,
       interval: 1000,
+      name: "MyProgram",
       output: [],
       pen: props.initialPen,
       ...Interpreter.createProgram(props.rows, props.columns),
@@ -74,6 +78,14 @@ export class Playground extends React.Component<
             setInput={bind(this.setInput)}
             output={this.state.output}
           />
+          <Api
+            name={this.state.name}
+            program={this.state}
+            id={this.state.id}
+            setName={bind(this.setName)}
+            setProgram={bind(this.setProgram)}
+            setId={bind(this.setId)}
+          />
         </SplitLayout>
       </div>
     );
@@ -98,6 +110,18 @@ export class Playground extends React.Component<
 
   private addOutput(message: string): void {
     this.setState({ output: this.state.output.concat(message) });
+  }
+
+  private setProgram(id: number, program: Program): void {
+    this.setState({ id, ...program });
+  }
+
+  private setName(name: string): void {
+    this.setState({ name });
+  }
+
+  private setId(id: number): void {
+    this.setState({ id });
   }
 
   private setSpeed(milliseconds: number) {
