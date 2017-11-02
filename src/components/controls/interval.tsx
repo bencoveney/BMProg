@@ -19,6 +19,14 @@ const intervals: Interval[] = [
     name: "10 per second",
   },
   {
+    milliseconds: 200,
+    name: "5 per second",
+  },
+  {
+    milliseconds: 500,
+    name: "2 per second",
+  },
+  {
     milliseconds: 1000,
     name: "1 per second",
   },
