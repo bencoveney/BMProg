@@ -11,7 +11,7 @@ export const Input: React.StatelessComponent<InputProps> = (
   const handleInput: React.ChangeEventHandler<any> = (
     event: React.ChangeEvent<any>,
   ) => {
-    const input = parseInt(event.target.value, 10);
+    const input = parseInt(event.target.value || 0, 10);
     if (!isNaN(input)) {
       props.setInput(input);
     }

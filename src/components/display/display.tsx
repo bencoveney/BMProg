@@ -4,7 +4,7 @@ import * as ArrayUtility from "../../utility/array";
 
 import { Empty, Instruction } from "../../bmprog/instruction";
 import { Program } from "../../bmprog/program";
-import { Row } from "./row";
+import { labelWidth, Row } from "./row";
 
 interface DisplayProps {
   width: number;
@@ -24,7 +24,7 @@ export const Display: React.StatelessComponent<DisplayProps> = (
     display: "flex",
     flexDirection: "column",
     height: `${props.height}px`,
-    width: `${props.width}px`,
+    width: `${props.width + (labelWidth * 2)}px`,
   };
 
   const rows = props.program.instructions.map(
@@ -40,8 +40,14 @@ export const Display: React.StatelessComponent<DisplayProps> = (
           ),
         }),
       );
+      const isFirst = rowIndex === 0;
+      const binary = Math.pow(2, rowIndex - 1);
+      const inLabel = isFirst ? "Start" : binary;
+      const outLabel = isFirst ? "End" : binary === 1 ? 0 : binary / 2;
       return (
         <Row
+          inLabel={inLabel.toString()}
+          outLabel={outLabel.toString()}
           key={rowIndex}
           cells={cells}
         />
