@@ -10,18 +10,31 @@ export interface ButtonProps {
   borders: Borders;
 }
 
-const getBorderWidth = (borders: Borders) => {
+const getBorderWidth = (borders: Borders): Style.Fixed => {
   switch (borders) {
-    case "left": return "1px 0 1px 1px";
-    case "right": return "1px 1px 1px 0";
-    case "both": return "1px 1px 1px 1px";
-    case "none": return "1px 0 1px 0";
+    case "left": return {
+      borderRadius: "6px 0 0 6px",
+      borderWidth: "1px 0 3px 1px",
+    };
+    case "right": return {
+      borderRadius: "0 6px 6px 0",
+      borderWidth: "1px 1px 3px 0",
+    };
+    case "both": return {
+      borderRadius: "3px",
+      borderWidth: "1px 1px 3px 1px",
+    };
+    case "none": return {
+      borderRadius: "0",
+      borderWidth: "1px 0 3px 0",
+    };
   }
 };
 
 const getStyle = Style.factory({
   background: `linear-gradient(165deg, ${Style.grey2} 0%, ${Style.grey1} 100%)`,
   borderColor: Style.grey3,
+  borderRadius: "3px",
   borderStyle: "solid",
   color: "white",
   flexBasis: "auto",
@@ -38,7 +51,7 @@ export const Button: React.SFC<ButtonProps> = (props) => (
   <button
     onClick={props.clicked}
     className={`mdi mdi-${props.icon} mdi-18px`}
-    style={getStyle({ borderWidth: getBorderWidth(props.borders) })}
+    style={getStyle(getBorderWidth(props.borders))}
   >
     <span style={captionStyle}>{props.caption}</span>
   </button>
