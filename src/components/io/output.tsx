@@ -13,7 +13,7 @@ const style: Style.Fixed = {
   color: "white",
   height: "100px",
   overflow: "auto",
-  padding: "10px",
+  padding: "5px",
   width: "100%",
 };
 
@@ -31,11 +31,9 @@ export class Output extends React.Component<OutputProps, {}> {
       },
     );
     return (
-      <Label value={"Output"}>
         <div style={style} ref={(element) => this.container = element}>
           {messages}
         </div>
-      </Label>
     );
   }
   public componentDidMount() {

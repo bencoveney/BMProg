@@ -6,15 +6,13 @@ import * as Style from "../../utility/style";
 import { Instruction } from "../../bmprog/instruction";
 
 const getStyle = Style.factory({
+  background: `linear-gradient(165deg, ${Style.grey2} 0%, ${Style.grey1} 100%)`,
+  borderColor: Style.grey3,
   borderStyle: "solid",
-  paddingBottom: "5px",
-  paddingRight: "5px",
-  paddingTop: "5px",
+  padding: "5px",
 });
 
-const backgroundColor = curry.replace(/0/gi)("C");
-const color = curry.replace(/F/gi)("3");
-const borderColor = curry.replace(/FFFFFF/gi)("CCCCCC");
+const color = curry.replace(/0/gi)("C");
 
 export const Button: React.SFC<{
   instruction: Instruction;
@@ -22,12 +20,13 @@ export const Button: React.SFC<{
   set: () => void;
 }> = (props) => {
   const style = getStyle({
-    backgroundColor: backgroundColor(props.instruction.color),
-    borderColor: borderColor(props.instruction.color),
+    borderColor: props.instruction.color,
     borderLeftWidth: props.isCurrent ? "6px" : "1px",
+    borderRightWidth: props.isCurrent ? "6px" : "1px",
     color: color(props.instruction.color),
     fontStyle: props.isCurrent ? "italic" : "normal",
     paddingLeft: props.isCurrent ? "5px" : "10px",
+    paddingRight: props.isCurrent ? "5px" : "10px",
   });
   return (
     <div style={style} onClick={props.set}>

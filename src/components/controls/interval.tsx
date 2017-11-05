@@ -12,7 +12,7 @@ const style: Style.Fixed = {
   borderStyle: "solid",
   borderWidth: "1px",
   color: "white",
-  padding: "10px",
+  padding: "5px",
   width: "100%",
 };
 

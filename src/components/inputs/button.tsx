@@ -4,13 +4,14 @@ import * as Style from "../../utility/style";
 type Borders = "left" | "right" | "both" | "none";
 
 export interface ButtonProps {
+  borders: Borders;
   caption: string;
   clicked: () => void;
+  disabled: boolean;
   icon: string;
-  borders: Borders;
 }
 
-const getBorderWidth = (borders: Borders): Style.Fixed => {
+const getBorders = (borders: Borders): Style.Fixed => {
   switch (borders) {
     case "left": return {
       borderRadius: "6px 0 0 6px",
@@ -31,28 +32,39 @@ const getBorderWidth = (borders: Borders): Style.Fixed => {
   }
 };
 
+const getColor = (enabled: boolean): Style.Fixed => ({
+  color: enabled ? "white" : Style.grey3,
+});
+
 const getStyle = Style.factory({
   background: `linear-gradient(165deg, ${Style.grey2} 0%, ${Style.grey1} 100%)`,
   borderColor: Style.grey3,
   borderRadius: "3px",
   borderStyle: "solid",
   color: "white",
-  flexBasis: "auto",
+  flexBasis: 1,
   flexGrow: 1,
   flexShrink: 0,
-  padding: "10px",
+  padding: "5px",
 });
 
 const captionStyle: Style.Fixed = {
   marginLeft: "5px",
 };
 
-export const Button: React.SFC<ButtonProps> = (props) => (
-  <button
-    onClick={props.clicked}
-    className={`mdi mdi-${props.icon} mdi-18px`}
-    style={getStyle(getBorderWidth(props.borders))}
-  >
-    <span style={captionStyle}>{props.caption}</span>
-  </button>
-);
+export const Button: React.SFC<ButtonProps> = (props) => {
+  const style = getStyle({
+    ...getBorders(props.borders),
+    ...getColor(!props.disabled),
+  });
+  return (
+    <button
+      onClick={props.clicked}
+      className={`mdi mdi-${props.icon} mdi-18px`}
+      style={style}
+      disabled={props.disabled}
+    >
+      <span style={captionStyle}>{props.caption}</span>
+    </button>
+  );
+};

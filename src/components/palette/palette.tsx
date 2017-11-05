@@ -10,7 +10,13 @@ interface PaletteProps {
   setPen: (instruction: Instruction) => void;
 }
 
-const style: Style.Fixed = { minWidth: "250px" };
+const border = `1px solid ${Style.grey3}`;
+
+const style: Style.Fixed = {
+  borderBottom: border,
+  borderTop: border,
+  minWidth: "250px",
+};
 
 export const Palette: React.SFC<PaletteProps> = (props) => {
   const buttons = Instructions.map((instruction, index) => {

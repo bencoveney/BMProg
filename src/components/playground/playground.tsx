@@ -24,6 +24,7 @@ interface PlaygroundProps {
 interface PlaygroundState extends Program {
   input: number;
   interval: number;
+  currentInterval: number | undefined;
   pen: Instruction;
   output: string[];
   name: string;
@@ -38,13 +39,12 @@ export class Playground extends React.Component<
   PlaygroundProps,
   PlaygroundState
 > {
-  private currentInterval: number | undefined;
-
   constructor(props: PlaygroundProps) {
     super(props);
     this.state = {
+      currentInterval: undefined,
       input: 0,
-      interval: 1000,
+      interval: 500,
       name: "MyProgram",
       output: [],
       pen: props.initialPen,
@@ -76,6 +76,8 @@ export class Playground extends React.Component<
           </Section>
           <Section title={"Playback"}>
             <Controls
+              isPlaying={this.isPlaying()}
+              isStarted={this.isStarted()}
               play={bind(this.isStarted() ? this.resume : this.start)}
               pause={bind(this.pause)}
               reset={bind(this.stop)}
@@ -110,8 +112,12 @@ export class Playground extends React.Component<
     this.pause();
   }
 
+  private isPlaying(): boolean {
+    return typeof this.state.currentInterval === "number";
+  }
+
   private isStarted(): boolean {
-    return typeof this.currentInterval === "number";
+    return this.state.signals.length > 0;
   }
 
   private setPen(instruction: Instruction): void {
@@ -139,7 +145,7 @@ export class Playground extends React.Component<
   }
 
   private setSpeed(milliseconds: number) {
-    const wasStarted = this.isStarted();
+    const wasStarted = this.isPlaying();
     if (wasStarted) {
       this.pause();
     }
@@ -180,10 +186,12 @@ export class Playground extends React.Component<
 
   private resume(): void {
     this.pause();
-    this.currentInterval = window.setInterval(
-      () => this.updateProgram(),
-      this.state.interval,
-    );
+    this.setState({
+      currentInterval: window.setInterval(
+        () => this.updateProgram(),
+        this.state.interval,
+      ),
+    });
   }
 
   private stop(): void {
@@ -192,9 +200,9 @@ export class Playground extends React.Component<
   }
 
   private pause(): void {
-    if (this.isStarted()) {
-      clearInterval(this.currentInterval as number);
-      this.currentInterval = undefined;
+    if (this.isPlaying()) {
+      clearInterval(this.state.currentInterval as number);
+      this.setState({ currentInterval: undefined });
     }
   }
 
