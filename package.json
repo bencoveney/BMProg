@@ -5,6 +5,7 @@
   "main": "docs/bundle.js",
   "dependencies": {
     "json-server": "^0.12.0",
+    "mdi": "^2.0.46",
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
   },

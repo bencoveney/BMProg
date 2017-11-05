@@ -1,12 +1,8 @@
 import * as React from "react";
 
-export interface OutputProps {
-  output: string[];
-}
+export interface OutputProps { output: string[]; }
 
-export const Output: React.StatelessComponent<OutputProps> = (
-  props: OutputProps,
-) => {
+export const Output: React.SFC<OutputProps> = (props) => {
   const messages = props.output.map(
     (message, index) => {
       return (

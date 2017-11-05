@@ -1,22 +1,17 @@
 import * as React from "react";
+import * as Style from "../../utility/style";
 
 import { Instruction } from "../../bmprog/instruction";
 import { Cell, CellProps } from "./cell";
 
-interface RowProps {
-  outLabel: string;
-  inLabel: string;
-  cells: CellProps[];
-}
-
-const style: React.CSSProperties = {
+const style: Style.Fixed = {
   display: "flex",
   flexGrow: 1,
 };
 
 export const labelWidth = 40;
 
-const getLabelStyle = (align: string): React.CSSProperties => ({
+const labelStyle: Style.Fixed = {
   boxShadow: "inset 0 0 1px 1px rgba(0, 0, 0, 0.1)",
   color: "#444444",
   fontSize: "0.8em",
@@ -24,12 +19,13 @@ const getLabelStyle = (align: string): React.CSSProperties => ({
   padding: "0.1em",
   textAlign: "right",
   width: `${labelWidth}px`,
-});
+};
 
-export const Row: React.StatelessComponent<RowProps> = (
-  props: RowProps,
-) => {
-
+export const Row: React.SFC<{
+  outLabel: string;
+  inLabel: string;
+  cells: CellProps[];
+}> = (props) => {
   const cells = props.cells.map(
     (cell, index) => (
       <Cell
@@ -40,14 +36,13 @@ export const Row: React.StatelessComponent<RowProps> = (
       />
     ),
   );
-
   return (
     <div style={style}>
-      <div style={getLabelStyle("right")}>
+      <div style={labelStyle}>
         {props.inLabel}
       </div>
       {cells}
-      <div style={getLabelStyle("left")}>
+      <div style={labelStyle}>
         {props.outLabel}
       </div>
     </div>

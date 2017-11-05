@@ -1,18 +1,16 @@
 import * as React from "react";
 
-export const merge = (
-  a: React.CSSProperties,
-  b: React.CSSProperties,
-): React.CSSProperties => {
-  const result: { [key: string]: any } = {};
+export type Fixed = Readonly<React.CSSProperties>;
 
-  Object.keys(a).forEach((style) => {
-    result[style] = a[style];
-  });
+type Factory = (dynamic: Fixed) => Fixed;
 
-  Object.keys(b).forEach((style) => {
-    result[style] = b[style];
-  });
+export const factory = (fixed: Fixed): Factory => (dynamic) => ({
+  ...fixed,
+  ...dynamic,
+});
 
-  return result;
-};
+export const grey1 = "#1E1E20";
+export const grey2 = "#2A2C2B";
+export const grey3 = "#374140";
+export const cream = "#D9CB9E";
+export const red = "#DC3522";

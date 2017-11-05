@@ -1,15 +1,12 @@
 import * as React from "react";
 
+import { Rows } from "../layout/rows";
 import { Input, InputProps } from "./input";
 import { Output, OutputProps } from "./output";
 
-export type IoProps = InputProps & OutputProps;
-
-export const Io: React.StatelessComponent<IoProps> = (
-  props: IoProps,
-) => (
-  <div>
+export const Io: React.SFC<InputProps & OutputProps> = (props) => (
+  <Rows>
     <Input {...props} />
     <Output {...props} />
-  </div>
+  </Rows>
 );

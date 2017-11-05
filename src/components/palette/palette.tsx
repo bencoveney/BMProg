@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as ArrayUtility from "../../utility/array";
+import * as Style from "../../utility/style";
 
 import { Instruction, Instructions } from "../../bmprog/instruction";
 import { Button } from "./button";
@@ -9,13 +10,9 @@ interface PaletteProps {
   setPen: (instruction: Instruction) => void;
 }
 
-const style: React.CSSProperties = {
-  minWidth: "250px",
-};
+const style: Style.Fixed = { minWidth: "250px" };
 
-export const Palette: React.StatelessComponent<PaletteProps> = (
-  props: PaletteProps,
-) => {
+export const Palette: React.SFC<PaletteProps> = (props) => {
   const buttons = Instructions.map((instruction, index) => {
     const set = () => props.setPen(instruction);
     const isCurrent = instruction === props.currentPen;
@@ -30,7 +27,6 @@ export const Palette: React.StatelessComponent<PaletteProps> = (
   });
   return (
     <div style={style}>
-      <h2>Palette</h2>
       {buttons}
     </div>
   );

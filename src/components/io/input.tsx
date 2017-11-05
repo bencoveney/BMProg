@@ -1,13 +1,13 @@
 import * as React from "react";
 
+import { Label } from "../layout/label";
+
 export interface InputProps {
   input: number;
   setInput: (value: number) => void;
 }
 
-export const Input: React.StatelessComponent<InputProps> = (
-  props: InputProps,
-) => {
+export const Input: React.SFC<InputProps> = (props) => {
   const handleInput: React.ChangeEventHandler<any> = (
     event: React.ChangeEvent<any>,
   ) => {
@@ -16,11 +16,9 @@ export const Input: React.StatelessComponent<InputProps> = (
       props.setInput(input);
     }
   };
-
   return (
-    <label>
-      Input:
+    <Label value={"Input"}>
       <input value={props.input} onChange={handleInput} />
-    </label>
+    </Label>
   );
 };

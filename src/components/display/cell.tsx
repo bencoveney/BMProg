@@ -1,8 +1,8 @@
 import * as React from "react";
-import * as StyleUtility from "../../utility/style";
 
 import { Instruction } from "../../bmprog/instruction";
 import { Signal } from "../../bmprog/signal";
+import { factory } from "../../utility/style";
 
 export interface CellProps {
   instruction: Instruction;
@@ -10,24 +10,19 @@ export interface CellProps {
   set: (clear: boolean) => void;
 }
 
-const staticStyle: React.CSSProperties = {
+const getStyle = factory({
   borderStyle: "solid",
   borderWidth: "2px",
   boxShadow: "inset 0 0 1px 1px rgba(0, 0, 0, 0.1)",
   flexGrow: 1,
-};
+});
 
-export const Cell: React.StatelessComponent<CellProps> = (
-  props: CellProps,
-) => {
+export const Cell: React.SFC<CellProps> = (props) => {
   const hasSignals = props.signals.length > 0;
-  const style: React.CSSProperties = StyleUtility.merge(
-    staticStyle,
-    {
-      backgroundColor: props.instruction.color,
-      borderColor: hasSignals ? "black" : "lightgrey",
-    },
-  );
+  const style = getStyle({
+    backgroundColor: props.instruction.color,
+    borderColor: hasSignals ? "black" : "lightgrey",
+  });
 
   const handler = (event: React.MouseEvent<any>) => {
     event.preventDefault();

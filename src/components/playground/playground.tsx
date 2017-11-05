@@ -1,15 +1,17 @@
 import * as React from "react";
 import * as Interpreter from "../../bmprog/interpreter";
 import * as ArrayUtility from "../../utility/array";
+import * as Style from "../../utility/style";
 
 import { Empty, Instruction } from "../../bmprog/instruction";
 import { Program } from "../../bmprog/program";
 import { Api } from "../api/api";
 import { Controls } from "../controls/controls";
 import { Display } from "../display/display";
-import { Io, IoProps } from "../io/io";
+import { Io } from "../io/io";
+import { Section } from "../layout/section";
+import { SplitLayout } from "../layout/splitLayout";
 import { Palette } from "../palette/palette";
-import { SplitLayout } from "../splitLayout/splitLayout";
 
 interface PlaygroundProps {
   initialPen: Instruction;
@@ -27,6 +29,10 @@ interface PlaygroundState extends Program {
   name: string;
   id?: number;
 }
+
+const style: Style.Fixed = {
+  height: "100%",
+};
 
 export class Playground extends React.Component<
   PlaygroundProps,
@@ -54,7 +60,7 @@ export class Playground extends React.Component<
     ): Target => target.bind(this);
 
     return (
-      <div>
+      <div style={style}>
         <SplitLayout>
           <Display
             width={this.props.width}
@@ -62,30 +68,38 @@ export class Playground extends React.Component<
             program={this.state}
             setInstruction={bind(this.setInstruction)}
           />
-          <Palette
-            currentPen={this.state.pen}
-            setPen={bind(this.setPen)}
-          />
-          <Controls
-            play={bind(this.isStarted() ? this.resume : this.start)}
-            pause={bind(this.pause)}
-            reset={bind(this.stop)}
-            setSpeed={bind(this.setSpeed)}
-            current={this.state.interval}
-          />
-          <Io
-            input={this.state.input}
-            setInput={bind(this.setInput)}
-            output={this.state.output}
-          />
-          <Api
-            name={this.state.name}
-            program={this.state}
-            id={this.state.id}
-            setName={bind(this.setName)}
-            setProgram={bind(this.setProgram)}
-            setId={bind(this.setId)}
-          />
+          <Section title={"Palette"}>
+            <Palette
+              currentPen={this.state.pen}
+              setPen={bind(this.setPen)}
+            />
+          </Section>
+          <Section title={"Playback"}>
+            <Controls
+              play={bind(this.isStarted() ? this.resume : this.start)}
+              pause={bind(this.pause)}
+              reset={bind(this.stop)}
+              setSpeed={bind(this.setSpeed)}
+              current={this.state.interval}
+            />
+          </Section>
+          <Section title={"Load/Save"}>
+            <Api
+              name={this.state.name}
+              program={this.state}
+              id={this.state.id}
+              setName={bind(this.setName)}
+              setProgram={bind(this.setProgram)}
+              setId={bind(this.setId)}
+            />
+          </Section>
+          <Section title={"Input/Output"}>
+            <Io
+              input={this.state.input}
+              setInput={bind(this.setInput)}
+              output={this.state.output}
+            />
+          </Section>
         </SplitLayout>
       </div>
     );
