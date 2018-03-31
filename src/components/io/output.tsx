@@ -18,7 +18,7 @@ const style: Style.Fixed = {
 };
 
 export class Output extends React.Component<OutputProps, {}> {
-  private container: Element | null;
+  private container: Element | null = null;
   public render() {
     const messages = this.props.output.map(
       (message, index) => {
